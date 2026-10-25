@@ -72,12 +72,12 @@ export default function (pi: ExtensionAPI) {
   pi.on("agent_end", async (event) => {
     if (!connected || !bot || !pendingGameReply || Date.now() - lastBotChatAt < 1000) return;
     const fromGame = event.messages.some((message) => {
-      if (message.role !== "user" || !Array.isArray(message.content)) return false;
+      if (message.role !== "user" || !("content" in message) || !Array.isArray(message.content)) return false;
       return message.content.some((part) => part.type === "text" && part.text.startsWith("[Minecraft chat] "));
     });
     if (!fromGame) return;
-    const reply = [...event.messages].reverse().find((message) => message.role === "assistant" && Array.isArray(message.content));
-    if (!reply || !Array.isArray(reply.content)) return;
+    const reply = [...event.messages].reverse().find((message) => message.role === "assistant" && "content" in message && Array.isArray(message.content));
+    if (!reply || !("content" in reply) || !Array.isArray(reply.content)) return;
     const text = reply.content.filter((part) => part.type === "text").map((part) => part.text).join(" ").trim();
     if (!text) return;
     pendingGameReply = false;
