@@ -4,8 +4,15 @@
   "private": true,
   "description": "A simple Minecraft chat bridge for Pi Coding Agent (Java Edition).",
   "type": "module",
+  "pi": {
+    "extensions": ["./index.ts"]
+  },
   "dependencies": {
     "mineflayer": "^4.31.0"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*"
   },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "*",
